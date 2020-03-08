@@ -1,44 +1,43 @@
-import dao.MovimientosDao
+import dao.RegistroDeMovimientos
 import dto.MovimientosDto
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 fun main() {
-    var id: Int = 0
-    var monto: Int = 0
-    //var fecha: Date
+    val ListaMovimientos = mutableListOf(MovimientosDto(1, 5000,  Calendar.getInstance().time))
+    ListaMovimientos.add(MovimientosDto(2, -15000,  Calendar.getInstance().time))
+    ListaMovimientos.add(MovimientosDto(3, 2500,  Calendar.getInstance().time))
+    ListaMovimientos.add(MovimientosDto(4, 40000,  Calendar.getInstance().time))
+    ListaMovimientos.add(MovimientosDto(5, -500,  Calendar.getInstance().time))
 
-    println("Ingrese el id de la transaccion")
-
-    var validacionId = true
-    while (validacionId){
+    var validacionConsulta = true
+    while (validacionConsulta){
         try {
-            id = readLine()?.toInt() as Int
-            validacionId = false
+            println("-------------------------------------------------------")
+            println("|Seleccione el numero de la opción que desea realizar |")
+            println("-------------------------------------------------------")
+            println("|1 = Agregar un nuevo movimiento                      |")
+            println("|2 = Consultar movimientos mas altos en el ultimo año |")
+            println("|3 = Consultar los ultimo 3 movimientos realizados    |")
+            println("|4 = Consultar promedio de transacciones positivas    |")
+            println("|5 = Consultar promedio de transacciones negativas    |")
+            println("|6 = Consultar movimientos mayores a 500.000          |")
+            println("|7 = Finalizar consultas                              |")
+            println("-------------------------------------------------------")
+            var opcion = readLine()?.toInt() as Int
+
+            when (opcion){
+                1 -> RegistroDeMovimientos().registarMovimiento()
+                2 -> println("Opcion 2")
+                3 -> println("Opcion 3")
+                4 -> println("Opcion 4")
+                5 -> println("Opcion 5")
+                6 -> println("Opcion 6")
+                7 -> validacionConsulta = false
+                else -> println("Esta opción seleccionada no es valida")
+            }
         } catch (e: Exception) {
-            println("Tiene que ser un valor numerico mayor a cero y no en decimal")
+            println("Solo se puede elegir la opciones mostradas")
+            Thread.sleep(1500)
         }
     }
-    var validacionMonto = true
-    while (validacionMonto){
-        println("Ingrese el monto de la transaccion")
-        try {
-            monto = readLine()?.toInt() as Int
-            validacionMonto = false
-        } catch (e: Exception) {
-            println("Tiene que ser un valor numerico mayor a cero")
-        }
-    }
-
-    val string = "2020-03-02"
-    val date = LocalDate.parse(string, DateTimeFormatter.ISO_DATE)
-    println(date)
-
-    //val fechas: Date = date
-    val ListaMovimientos = mutableListOf(MovimientosDto(id, monto,  Calendar.getInstance().time))
-    println(ListaMovimientos)
-
-    val move = MovimientosDao(ListaMovimientos).GetMontoMaximo()
-    println(move)
 }
