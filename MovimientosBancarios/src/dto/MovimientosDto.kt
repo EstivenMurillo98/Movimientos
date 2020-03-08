@@ -1,4 +1,4 @@
-package co.com.dto
+package dto
 
 import java.util.*
 

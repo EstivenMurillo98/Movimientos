@@ -1,5 +1,5 @@
-import co.com.dao.MovimientosDao
-import co.com.dto.MovimientosDto
+import dao.MovimientosDao
+import dto.MovimientosDto
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -36,10 +36,9 @@ fun main() {
     println(date)
 
     //val fechas: Date = date
-
-    val ListaMovimientos = mutableListOf(MovimientosDto(id, monto as Int,  Calendar.getInstance().time))
+    val ListaMovimientos = mutableListOf(MovimientosDto(id, monto,  Calendar.getInstance().time))
     println(ListaMovimientos)
 
-    val move = MovimientosDao(ListaMovimientos).GetMaxMount()
-    //move.GetMaxMount()
+    val move = MovimientosDao(ListaMovimientos).GetMontoMaximo()
+    println(move)
 }
