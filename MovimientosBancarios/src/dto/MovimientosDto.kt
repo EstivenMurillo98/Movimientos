@@ -6,6 +6,4 @@ data class MovimientosDto(
     val id: Int,
     val monto: Int,
     val fecha: LocalDate
-
-
 )

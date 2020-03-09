@@ -1,13 +1,10 @@
 package dao
 
 import dto.MovimientosDto
-import java.text.SimpleDateFormat
-import java.util.*
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class RegistroDeMovimientos {
-
+class RegistroMovimiento {
     fun registrarMovimiento(): MutableList<MovimientosDto> {
         var id: Int = 0
         var monto: Int = 0
@@ -41,12 +38,12 @@ class RegistroDeMovimientos {
         while (validacionfecha){
             try {
                 println("Ingrese el año de la transacción")
-                val año = readLine()?.toString() as String
+                val ano = readLine() as String
                 println("Ingrese el mes de la transacción")
-                val mes = readLine()?.toString() as String
+                val mes = readLine() as String
                 println("Ingrese el día de la transacción")
-                val dia = readLine()?.toString() as String
-                val date = "$año-$mes-$dia"
+                val dia = readLine() as String
+                val date = "$ano-$mes-$dia"
                 val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
                 fechaCompleta = LocalDate.parse(date, formatter)
                 validacionfecha = false
@@ -54,8 +51,7 @@ class RegistroDeMovimientos {
                 println("La fecha ingresada no es correcta")
             }
         }
+        println("Registro exioso")
         return mutableListOf(MovimientosDto(id, monto, fechaCompleta))
     }
-
-
 }
