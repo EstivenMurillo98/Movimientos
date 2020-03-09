@@ -1,9 +1,11 @@
 package dto
 
-import java.util.*
+import java.time.LocalDate
 
 data class MovimientosDto(
     val id: Int,
     val monto: Int,
-    val fecha: Date
+    val fecha: LocalDate
+
+
 )

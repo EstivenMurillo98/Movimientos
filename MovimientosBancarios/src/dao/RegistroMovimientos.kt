@@ -1,18 +1,19 @@
 package dao
 
 import dto.MovimientosDto
+import java.text.SimpleDateFormat
+import java.util.*
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 class RegistroDeMovimientos {
 
-    fun registarMovimiento(): MutableList<MovimientosDto> {
+    fun registrarMovimiento(): MutableList<MovimientosDto> {
         var id: Int = 0
         var monto: Int = 0
-        //var fecha: Date
+        var fechaCompleta: LocalDate = LocalDate.MAX
         println("---------------------------------")
-        println("|Ingrese el id de la transaccion|")
+        println("|Ingrese el id de la transacción|")
         println("---------------------------------")
         var validacionId = true
         while (validacionId){
@@ -25,7 +26,9 @@ class RegistroDeMovimientos {
         }
         var validacionMonto = true
         while (validacionMonto){
-            println("Ingrese el monto de la transaccion")
+            println("------------------------------------")
+            println("|Ingrese el monto de la transacción|")
+            println("------------------------------------")
             try {
                 monto = readLine()?.toInt() as Int
                 validacionMonto = false
@@ -34,13 +37,24 @@ class RegistroDeMovimientos {
             }
         }
 
-        val string = "2020-03-02"
-        val date = LocalDate.parse(string, DateTimeFormatter.ISO_DATE)
-        println(date)
-        //val fechas: Date = date
-        val ListaMovimientos = mutableListOf(MovimientosDto(id, monto,  Calendar.getInstance().time))
-
-        return ListaMovimientos
+        var validacionfecha = true
+        while (validacionfecha){
+            try {
+                println("Ingrese el año de la transacción")
+                val año = readLine()?.toString() as String
+                println("Ingrese el mes de la transacción")
+                val mes = readLine()?.toString() as String
+                println("Ingrese el día de la transacción")
+                val dia = readLine()?.toString() as String
+                val date = "$año-$mes-$dia"
+                val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                fechaCompleta = LocalDate.parse(date, formatter)
+                validacionfecha = false
+            } catch (e: Exception) {
+                println("La fecha ingresada no es correcta")
+            }
+        }
+        return mutableListOf(MovimientosDto(id, monto, fechaCompleta))
     }
 
 
