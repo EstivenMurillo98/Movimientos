@@ -6,7 +6,7 @@ class MovimientosDao : Filtros {
 
     override fun GetMovimientoMasAltoUltimoAno(listaMovimientos: List<MovimientosDto>) : MovimientosDto {
         println("Su movimiento más alto en el ultimo año es: ")
-        return listaMovimientos.sortedByDescending { it.fecha.year == 2020 }.sortedByDescending { it.monto }.first()
+        return listaMovimientos.sortedByDescending { it.fecha.year == 2020 }.maxBy { it.monto }!!
     }
 
     override fun GetUltimosTresMovimientos(listaMovimientos : List<MovimientosDto>) : List<MovimientosDto> {

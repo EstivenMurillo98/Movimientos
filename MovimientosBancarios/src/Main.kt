@@ -6,11 +6,11 @@ import java.time.format.DateTimeFormatter
 
 fun main() {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    val ListaMovimientos = mutableListOf(MovimientosDto(1,510000, LocalDate.parse("2019-12-28", formatter)))
-    ListaMovimientos.add(MovimientosDto(2,-150000, LocalDate.parse("2019-01-10", formatter)))
-    ListaMovimientos.add(MovimientosDto(3,2400, LocalDate.parse("2020-02-18", formatter)))
-    ListaMovimientos.add(MovimientosDto(4,3500000, LocalDate.parse("2020-02-18", formatter)))
-    ListaMovimientos.add(MovimientosDto(5,-7000, LocalDate.parse("2019-05-30", formatter)))
+    val listaMovimientos = mutableListOf(MovimientosDto(1,510000, LocalDate.parse("2019-12-28", formatter)))
+    listaMovimientos.add(MovimientosDto(2,-150000, LocalDate.parse("2019-01-10", formatter)))
+    listaMovimientos.add(MovimientosDto(3,2400, LocalDate.parse("2020-02-18", formatter)))
+    listaMovimientos.add(MovimientosDto(4,3500000, LocalDate.parse("2020-02-18", formatter)))
+    listaMovimientos.add(MovimientosDto(5,-7000, LocalDate.parse("2019-05-30", formatter)))
 
     var validacionConsulta = true
     while (validacionConsulta){
@@ -27,14 +27,13 @@ fun main() {
             println("|7 = Finalizar consultas                                        |")
             println("-----------------------------------------------------------------")
             print("Ingrese su opción -> ")
-            var opcion = readLine()?.toInt() as Int
-            when (opcion){
-                1 -> ListaMovimientos.add(RegistroMovimiento().registrarMovimiento()[0])
-                2 -> imprimirMovimiento(MovimientosDao().GetMovimientoMasAltoUltimoAno(ListaMovimientos))
-                3 -> imprimirMovimientos(MovimientosDao().GetUltimosTresMovimientos(ListaMovimientos))
-                4 -> imprimirPromedios(MovimientosDao().GetPromedioMovimientos(ListaMovimientos))
-                5 -> MovimientosDao().GetMovimientosMayoresAUnMonto(ListaMovimientos)
-                6 -> imprimirMovimientos(MovimientosDao().GetTodosLosMovimientos(ListaMovimientos))
+            when (readLine()?.toInt() as Int){
+                1 -> listaMovimientos.add(RegistroMovimiento().registrarMovimiento()[0])
+                2 -> imprimirMovimiento(MovimientosDao().GetMovimientoMasAltoUltimoAno(listaMovimientos))
+                3 -> imprimirMovimientos(MovimientosDao().GetUltimosTresMovimientos(listaMovimientos))
+                4 -> imprimirPromedios(MovimientosDao().GetPromedioMovimientos(listaMovimientos))
+                5 -> imprimirIdMontos(MovimientosDao().GetMovimientosMayoresAUnMonto(listaMovimientos))
+                6 -> imprimirMovimientos(MovimientosDao().GetTodosLosMovimientos(listaMovimientos))
                 7 -> validacionConsulta = false
                 else -> println("Esta opción seleccionada no es valida")
             }
@@ -58,8 +57,13 @@ fun imprimirMovimiento(movimiento: MovimientosDto){
 
 fun imprimirPromedios(promedioMovimientos: MutableMap<String, List<MovimientosDto>>) {
     print("El promedio de las transacciones negativas es: ")
-    println((promedioMovimientos.get("negativas") as List<MovimientosDto>).map { it.monto }.average())
+    println((promedioMovimientos["negativas"] as List<MovimientosDto>).map { it.monto }.average())
     print("El promedio de las transacciones positivas es: ")
-    println((promedioMovimientos.get("positivas") as List<MovimientosDto>).map { it.monto }.average())
+    println((promedioMovimientos["positivas"] as List<MovimientosDto>).map { it.monto }.average())
+    Thread.sleep(2000)
+}
+
+fun imprimirIdMontos(movimientos : List<MovimientosDto>){
+    movimientos.forEach { println("ID: ${it.id}") }
     Thread.sleep(2000)
 }
