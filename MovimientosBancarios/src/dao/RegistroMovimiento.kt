@@ -7,7 +7,27 @@ import java.time.format.DateTimeFormatter
 class RegistroMovimiento {
 
     fun registrarMovimiento(): MutableList<MovimientosDto> {
-        return mutableListOf(MovimientosDto(registroId(), registroMonto(), registroFecha()))
+        val listaMovimientos = mutableListOf<MovimientosDto>()
+        try {
+            listaMovimientos.add(MovimientosDto(registroId(), registroMonto(), registroFecha()))
+            loop@ while (true){
+                println("-----------------------------------")
+                println("|Deseas ingresar otro movimiento? |")
+                println("-----------------------------------")
+                println("|             1 - Si              |")
+                println("|             2 - No              |")
+                println("-----------------------------------")
+                print("-> ")
+                when(readLine()?.toInt() as Int){
+                    1 -> listaMovimientos.add(MovimientosDto(registroId(), registroMonto(), registroFecha()))
+                    2 -> break@loop
+                    else -> println("Esta opción no es valida")
+                }
+            }
+        } catch (e: Exception) {
+            println("Tiene que ser un valor numerico mayor a cero")
+        }
+        return listaMovimientos
     }
 
     private fun registroId() : Int {

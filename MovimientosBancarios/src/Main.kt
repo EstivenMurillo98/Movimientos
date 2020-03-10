@@ -14,8 +14,9 @@ fun main() {
     listaMovimientos.add(MovimientosDto(4,3500000, LocalDate.parse("2020-02-18", formatter)))
     listaMovimientos.add(MovimientosDto(5,-7000, LocalDate.parse("2019-05-30", formatter)))
 
-    val movimientosDao = MovimientosDao()
     val imprimirConsultas = ImprimirConsultas()
+    val movimientosDao = MovimientosDao()
+    val registroMovimiento = RegistroMovimiento()
     loop@ while (true){
         try {
             println("-----------------------------------------------------------------")
@@ -31,7 +32,7 @@ fun main() {
             println("-----------------------------------------------------------------")
             print("Ingrese su opción -> ")
             when (readLine()?.toInt() as Int){
-                1 -> listaMovimientos.add(RegistroMovimiento().registrarMovimiento()[0])
+                1 -> registroMovimiento.registrarMovimiento().map { listaMovimientos.add(it) } + println("Se a realizo el registo")
                 2 -> imprimirConsultas.imprimirMovimiento(movimientosDao.GetMovimientoMasAltoUltimoAno(listaMovimientos))
                 3 -> imprimirConsultas.imprimirMovimientos(movimientosDao.GetUltimosTresMovimientos(listaMovimientos))
                 4 -> imprimirConsultas.imprimirPromedios(movimientosDao.GetPromedioMovimientos(listaMovimientos))
