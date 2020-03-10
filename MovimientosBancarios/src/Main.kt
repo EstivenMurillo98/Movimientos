@@ -15,29 +15,27 @@ fun main() {
     var validacionConsulta = true
     while (validacionConsulta){
         try {
-            println("-------------------------------------------------------")
-            println("|Seleccione el numero de la opción que desea realizar |")
-            println("-------------------------------------------------------")
-            println("|1 = Agregar un nuevo movimiento                      |")
-            println("|2 = Consultar movimiento mas alto en el ultimo año   |")
-            println("|3 = Consultar los ultimo 3 movimientos realizados    |")
-            println("|4 = Consultar promedio de transacciones positivas    |")
-            println("|5 = Consultar promedio de transacciones negativas    |")
-            println("|6 = Consultar movimientos mayores a 500000           |")
-            println("|7 = Mostrar todos los movimientos                    |")
-            println("|8 = Finalizar consultas                              |")
-            println("-------------------------------------------------------")
+            println("-----------------------------------------------------------------")
+            println("|     Seleccione el numero de la opción que desea realizar      |")
+            println("-----------------------------------------------------------------")
+            println("|1 = Agregar un nuevo movimiento                                |")
+            println("|2 = Consultar movimiento mas alto en el ultimo año             |")
+            println("|3 = Consultar los ultimo 3 movimientos realizados              |")
+            println("|4 = Consultar promedio de movimientos positivas y negativos    |")
+            println("|5 = Consultar movimientos mayores a 500000                     |")
+            println("|6 = Mostrar todos los movimientos                              |")
+            println("|7 = Finalizar consultas                                        |")
+            println("-----------------------------------------------------------------")
             print("Ingrese su opción -> ")
             var opcion = readLine()?.toInt() as Int
             when (opcion){
                 1 -> ListaMovimientos.add(RegistroMovimiento().registrarMovimiento()[0])
-                2 -> MovimientosDao().GetMovimientoMasAltoUltimoAno(ListaMovimientos)
-                3 -> MovimientosDao().GetUltimosTresMovimientos(ListaMovimientos)
-                4 -> println("Opcion 4")
-                5 -> println("Opcion 5")
-                6 -> MovimientosDao().GetMovimientosMayoresAUnMonto(ListaMovimientos)
-                7 -> MovimientosDao().GetTodosLosMovimientos(ListaMovimientos)
-                8 -> validacionConsulta = false
+                2 -> imprimirMovimiento(MovimientosDao().GetMovimientoMasAltoUltimoAno(ListaMovimientos))
+                3 -> imprimirMovimientos(MovimientosDao().GetUltimosTresMovimientos(ListaMovimientos))
+                4 -> imprimirPromedios(MovimientosDao().GetPromedioMovimientos(ListaMovimientos))
+                5 -> MovimientosDao().GetMovimientosMayoresAUnMonto(ListaMovimientos)
+                6 -> imprimirMovimientos(MovimientosDao().GetTodosLosMovimientos(ListaMovimientos))
+                7 -> validacionConsulta = false
                 else -> println("Esta opción seleccionada no es valida")
             }
         } catch (e: Exception) {
@@ -46,4 +44,22 @@ fun main() {
         }
     }
     println("Gracias por usar este programa de consultas vuelva pronto")
+}
+
+fun imprimirMovimientos(movimientos : List<MovimientosDto>){
+    movimientos.forEach { println("ID: ${it.id}  Monto:  ${it.monto}  Fecha: ${it.fecha}") }
+    Thread.sleep(2000)
+}
+
+fun imprimirMovimiento(movimiento: MovimientosDto){
+    println("ID: ${movimiento.id}  Monto:  ${movimiento.monto}  Fecha: ${movimiento.fecha}")
+    Thread.sleep(2000)
+}
+
+fun imprimirPromedios(promedioMovimientos: MutableMap<String, List<MovimientosDto>>) {
+    print("El promedio de las transacciones negativas es: ")
+    println((promedioMovimientos.get("negativas") as List<MovimientosDto>).map { it.monto }.average())
+    print("El promedio de las transacciones positivas es: ")
+    println((promedioMovimientos.get("positivas") as List<MovimientosDto>).map { it.monto }.average())
+    Thread.sleep(2000)
 }
