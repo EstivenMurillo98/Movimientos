@@ -23,7 +23,6 @@ class MovimientosDao : Filtros {
 
     override fun GetMovimientosMayoresAUnMonto(listaMovimientos : List<MovimientosDto>) : List<MovimientosDto> {
         println("Sus movimientos mayores a 500000 son: ")
-        listaMovimientos.filter { it.monto >= 500000 }.forEach { println("ID: ${it.id}  Monto:  ${it.monto}  Fecha: ${it.fecha}") }
         return listaMovimientos.filter { it.monto >= 500000 }
     }
 
