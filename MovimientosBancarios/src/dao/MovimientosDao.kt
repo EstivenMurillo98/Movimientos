@@ -1,6 +1,7 @@
 package dao
 
 import dto.MovimientosDto
+import java.lang.StrictMath.abs
 
 class MovimientosDao : Filtros {
 
@@ -23,7 +24,7 @@ class MovimientosDao : Filtros {
 
     override fun GetMovimientosMayoresAUnMonto(listaMovimientos : List<MovimientosDto>) : List<MovimientosDto> {
         println("Sus movimientos mayores a 500000 son: ")
-        return listaMovimientos.filter { it.monto >= 500000 }
+        return listaMovimientos.filter { abs(it.monto) >= 500000 }
     }
 
     override fun GetTodosLosMovimientos(listaMovimientos : List<MovimientosDto>) : List<MovimientosDto> {

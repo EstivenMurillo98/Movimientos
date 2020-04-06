@@ -1,3 +1,4 @@
+import dao.GenerarMovimientos
 import dao.ImprimirConsultas
 import dao.MovimientosDao
 import dao.RegistroMovimiento
@@ -13,6 +14,10 @@ fun main() {
     listaMovimientos.add(MovimientosDto(3,2400, LocalDate.parse("2020-02-18", formatter)))
     listaMovimientos.add(MovimientosDto(4,3500000, LocalDate.parse("2020-02-18", formatter)))
     listaMovimientos.add(MovimientosDto(5,-7000, LocalDate.parse("2019-05-30", formatter)))
+
+    println("Segunda lista")
+    println(GenerarMovimientos().crearMovimientosAleatoreos(40)
+        .forEach { println("ID: ${it.id}  Monto:  ${it.monto}  Fecha: ${it.fecha}") })
 
     val imprimirConsultas = ImprimirConsultas()
     val movimientosDao = MovimientosDao()
